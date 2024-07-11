@@ -50,4 +50,3 @@ export const deletePost = async (Id: number) => {
     return response.json();
   };
 
-

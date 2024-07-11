@@ -1,132 +1,184 @@
-// import { useEffect, useState } from 'react'
-// import './App.css'
-// import { creatNewPost, deletePost, getAllPosts } from './service'
-// import {getAllProduct} from './component/Session57/bt2'
-// import {createProduct } from './component/Session57/bt5'
+// import { useEffect, useState } from 'react';
+// import './App.css';
+// import { createdNewPost, deletePost, getAllPosts, editPost } from './service/axios';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 
+// type Post = {
+//   userId: number;
+//   id: number;
+//   title: string;
+//   body: string;
+// }
 
 // function App() {
+//   const [data, setData] = useState<Post[]>([]);
+//   const [editTitle, setEditTitle] = useState<string>("");
+//   const [editBody, setEditBody] = useState<string>("");
 
-//   // const [data, setdata] = useState
- 
-//   // Fetch là gì ? : dùng để gửi request và nhận response trả về từ các API 
+//   useEffect(() => {
+//     getAllPosts()
+//       .then(data => setData(data))
+//       .catch(err => console.log(err));
 
-//   // hàm fetch(); trả về 1 Promise -> dùng cơ chế .then , .catch để xứ lý , kết async await để
-  
-//   // useEffect(()=> {
-//   //   // Call API
-//   //   const data = getAllPosts();
-//   //   console.log(data)
-//   //   data.then((data)=> {
-//   //     console.log(data)
-//   //   }).catch(err => {
-//   //     console.log("err",err);
-//   //   })
+//     createdNewPost({ title: "Hạ đi ăn kem", body: "Đi chơi sở thú" })
+//       .then(d => {
+//         // nhận được data vừa thêm mới
+//         setData(prevData => [...prevData, d]);
+//       })
+//       .catch(err => console.log(err));
+//   }, []);
 
-//   //     // Call post
-//   //     const datas = {
-//   //       "userId": 2,
-//   //       "title": "Hạ",
-//   //       "body": "Vô tri"
-//   //     }
-//   //   creatNewPost(datas).then(datas => {
-//   //     console.log("new dât", datas)
-//   //   })
-//   // })
+//   const handleDelete = async (id: number) => {
+//     try {
+//       await deletePost(id);
+//       setData(prevData => prevData.filter(post => post.id !== id));
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
 
-  
+//   const handleEdit = async (id: number) => {
+//     const updatedPost = { title: editTitle, body: editBody };
+//     try {
+//       const updatedData = await editPost(id, updatedPost);
+//       setData(prevData => prevData.map(post => (post.id === id ? updatedData : post)));
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
 
 
 
 //   return (
 //     <>
+//       <ul>
+//         {data.map((d) => (
+//           <li key={d.id}>
+//             {d.title} - {d.body}
+//             <button onClick={() => handleDelete(d.id)}>Delete</button>
+//             <button onClick={() => handleEdit(d.id)}>Edit</button>
+//           </li>
+//         ))}
+//       </ul>
+//       <input
+//         type="text"
+//         placeholder="Edit title"
+//         value={editTitle}
+//         onChange={(e) => setEditTitle(e.target.value)}
+//       />
+//       <input
+//         type="text"
+//         placeholder="Edit body"
+//         value={editBody}
+//         onChange={(e) => setEditBody(e.target.value)}
+//       />
 //     </>
-//   )
+//   );
 // }
 
-// export default App
-
-
-
-import React, { useState, useEffect } from 'react';
-import {getAllProduct} from './component/Session57/bt2'
-import { createProduct } from './component/Session57/bt5';
+// export default App;
 
 
 
 
-function ProductManagement() {
-  const [product, setProduct] = useState({ name: '', price: 0 });
-  const [products, setProducts] = useState<any[]>([]);
+// import React, { useState, useEffect } from 'react';
+// import {getAllProduct} from './component/Session57/bt2'
+// import { createProduct } from './component/Session57/bt5';
 
-  useEffect(() => {
-      const fetchProducts = async () => {
-          const data = await getAllProduct();
-          setProducts(data);
-      };
 
-      fetchProducts();
-  }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      setProduct((prevProduct) => ({
-          ...prevProduct,
-          [name]: name === 'price' ? parseFloat(value) : value,
-      }));
-  };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      const newProduct = await createProduct(product);
-      setProducts((prevProducts) => [...prevProducts, newProduct]);
-      setProduct({ name: '', price: 0 }); // Reset the form after submission
-  };
+// function ProductManagement() {
+//   const [product, setProduct] = useState({ name: '', price: 0 });
+//   const [products, setProducts] = useState<any[]>([]);
 
-  return (
-      <div>
-          <h1>Product Management</h1>
-          <div>
-              <h2>Add Product</h2>
-              <form onSubmit={handleSubmit}>
-                  <div>
-                      <label>Name:</label>
-                      <input
-                          type="text"
-                          name="name"
-                          value={product.name}
-                          onChange={handleChange}
-                      />
-                  </div>
-                  <div>
-                      <label>Price:</label>
-                      <input
-                          type="number"
-                          name="price"
-                          value={product.price}
-                          onChange={handleChange}
-                      />
-                  </div>
-                  <button type="submit">Add Product</button>
-              </form>
-          </div>
-          <div>
-              <h2>Product List</h2>
-              <ul>
-                  {products.map((product) => (
-                      <li key={product.id}>{product.name}</li>
-                  ))}
-              </ul>
-          </div>
-      </div>
-  );
+//   useEffect(() => {
+//       const fetchProducts = async () => {
+//           const data = await getAllProduct();
+//           setProducts(data);
+//       };
+
+//       fetchProducts();
+//   }, []);
+
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//       const { name, value } = e.target;
+//       setProduct((prevProduct) => ({
+//           ...prevProduct,
+//           [name]: name === 'price' ? parseFloat(value) : value,
+//       }));
+//   };
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//       e.preventDefault();
+//       const newProduct = await createProduct(product);
+//       setProducts((prevProducts) => [...prevProducts, newProduct]);
+//       setProduct({ name: '', price: 0 }); // Reset the form after submission
+//   };
+
+//   return (
+//       <div>
+//           <h1>Product Management</h1>
+//           <div>
+//               <h2>Add Product</h2>
+//               <form onSubmit={handleSubmit}>
+//                   <div>
+//                       <label>Name:</label>
+//                       <input
+//                           type="text"
+//                           name="name"
+//                           value={product.name}
+//                           onChange={handleChange}
+//                       />
+//                   </div>
+//                   <div>
+//                       <label>Price:</label>
+//                       <input
+//                           type="number"
+//                           name="price"
+//                           value={product.price}
+//                           onChange={handleChange}
+//                       />
+//                   </div>
+//                   <button type="submit">Add Product</button>
+//               </form>
+//           </div>
+//           <div>
+//               <h2>Product List</h2>
+//               <ul>
+//                   {products.map((product) => (
+//                       <li key={product.id}>{product.name}</li>
+//                   ))}
+//               </ul>
+//           </div>
+//       </div>
+//   );
+// }
+
+// export default ProductManagement;
+
+
+import React from 'react';
+import { useState, useEffect } from 'react'; 
+import FormTable from './component/Session58/bt9_10';
+import StudentControl from './component/Session58/bt7_8';
+
+function App() {
+
+
+
+
+
+  return(
+    <>
+    {/* <FormTable></FormTable> */}
+    <StudentControl></StudentControl>
+    </>
+  )
 }
 
-export default ProductManagement;
-
-
-
+export default App
 
 
 
